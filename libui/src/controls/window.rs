@@ -84,6 +84,15 @@ impl Window {
         }
     }
 
+    /// Set the window's title to the given string.
+    pub fn set_position(&mut self, x: c_int, y: c_int) {
+        unsafe { libui_ffi::uiWindowSetPosition(self.uiWindow, x, y) }
+    }
+
+    pub fn set_position_center(&mut self) {
+        unsafe { libui_ffi::uiWindowSetPositionCenter(self.uiWindow) }
+    }
+
     /// Set a callback to be run when the window closes.
     ///
     /// This is often used on the main window of an application to quit

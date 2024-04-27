@@ -201,6 +201,7 @@ fn main() {
     // The window allows all constituent components to be displayed.
     let mut window = Window::new(&ui, "Input Output Test", 300, 150, WindowType::NoMenubar);
     window.set_child(grid);
+    window.set_position_center();
     window.show();
 
     // These on_changed functions allow updating the application state when a
