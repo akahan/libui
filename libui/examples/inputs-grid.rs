@@ -220,6 +220,7 @@ fn main() {
         }
     });
 
+    entry.set_placeholder("Enter text");
     entry.on_changed({
         let state = state.clone();
         move |val| {

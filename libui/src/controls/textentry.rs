@@ -15,6 +15,7 @@ use str_tools::{from_toolkit_string, to_toolkit_string};
 pub trait TextEntry {
     fn value(&self) -> String;
     fn set_value(&mut self, value: &str);
+    fn set_placeholder(&mut self, value: &str);
     fn on_changed<'ctx, F: FnMut(String) + 'static>(&mut self, callback: F);
 }
 
@@ -94,6 +95,11 @@ impl TextEntry for Entry {
         unsafe { libui_ffi::uiEntrySetText(self.uiEntry, cstring.as_ptr()) }
     }
 
+    fn set_placeholder(&mut self, value: &str) {
+        let cstring = to_toolkit_string(value);
+        unsafe { libui_ffi::uiEntrySetPlaceholder(self.uiEntry, cstring.as_ptr()) }
+    }
+
     fn on_changed<'ctx, F>(&mut self, callback: F)
     where
         F: FnMut(String) + 'static,
@@ -128,6 +134,11 @@ impl TextEntry for PasswordEntry {
         unsafe { libui_ffi::uiEntrySetText(self.uiEntry, cstring.as_ptr()) }
     }
 
+    fn set_placeholder(&mut self, value: &str) {
+        let cstring = to_toolkit_string(value);
+        unsafe { libui_ffi::uiEntrySetPlaceholder(self.uiEntry, cstring.as_ptr()) }
+    }
+
     fn on_changed<'ctx, F: FnMut(String) + 'static>(&mut self, callback: F) {
         unsafe {
             let mut data: Box<Box<dyn FnMut(String)>> = Box::new(Box::new(callback));
@@ -157,6 +168,11 @@ impl TextEntry for SearchEntry {
     fn set_value(&mut self, value: &str) {
         let cstring = to_toolkit_string(value);
         unsafe { libui_ffi::uiEntrySetText(self.uiEntry, cstring.as_ptr()) }
+    }
+
+    fn set_placeholder(&mut self, value: &str) {
+        let cstring = to_toolkit_string(value);
+        unsafe { libui_ffi::uiEntrySetPlaceholder(self.uiEntry, cstring.as_ptr()) }
     }
 
     /// Some systems will deliberately delay the callback for a more natural feel.
@@ -189,6 +205,8 @@ impl TextEntry for MultilineEntry {
         let cstring = to_toolkit_string(value);
         unsafe { libui_ffi::uiMultilineEntrySetText(self.uiMultilineEntry, cstring.as_ptr()) }
     }
+
+    fn set_placeholder(&mut self, _value: &str) {}
 
     fn on_changed<'ctx, F>(&mut self, callback: F)
     where
