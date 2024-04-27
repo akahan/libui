@@ -47,17 +47,32 @@ impl Entry {
     pub fn new() -> Entry {
         unsafe { Entry::from_raw(libui_ffi::uiNewEntry()) }
     }
+
+    pub fn with_placeholder(mut self, value: &str) -> Self {
+        self.set_placeholder(value);
+        self
+    }
 }
 
 impl PasswordEntry {
     pub fn new() -> PasswordEntry {
         unsafe { PasswordEntry::from_raw(libui_ffi::uiNewPasswordEntry()) }
     }
+
+    pub fn with_placeholder(mut self, value: &str) -> Self {
+        self.set_placeholder(value);
+        self
+    }
 }
 
 impl SearchEntry {
     pub fn new() -> SearchEntry {
         unsafe { SearchEntry::from_raw(libui_ffi::uiNewSearchEntry()) }
+    }
+
+    pub fn with_placeholder(mut self, value: &str) -> Self {
+        self.set_placeholder(value);
+        self
     }
 }
 
