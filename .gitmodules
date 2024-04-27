@@ -1,3 +1,4 @@
 [submodule "libui-ffi/libui"]
 	path = libui-ffi/libui
-	url = https://github.com/libui-ng/libui-ng
+	url = https://github.com/akahan/libui-ng
+	branch = dev
