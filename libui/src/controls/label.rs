@@ -1,7 +1,7 @@
 use super::Control;
 use std::ffi::{CStr, CString};
 use std::mem;
-use libui_ffi::{self, uiControl, uiLabel};
+use libui_ffi::{self, uiControl, uiDrawTextAlign, uiLabel};
 
 define_control! {
     /// A non-interactable piece of text.
@@ -40,5 +40,29 @@ impl Label {
             let c_string = CString::new(text.as_bytes().to_vec()).unwrap();
             libui_ffi::uiLabelSetText(self.uiLabel, c_string.as_ptr())
         }
+    }
+
+    /// Set the text on the label.
+    pub fn set_alignment(&mut self, alignment: TextAlignment) {
+        unsafe {
+            libui_ffi::uiLabelSetAlignment(self.uiLabel, alignment.into_ui_align())
+        }
+    }
+}
+
+#[derive(Clone, Copy, PartialEq)]
+pub enum TextAlignment {
+    Left,
+    Center,
+    Right,
+}
+
+impl TextAlignment {
+    fn into_ui_align(self) -> uiDrawTextAlign {
+        return match self {
+            TextAlignment::Left => libui_ffi::uiDrawTextAlignLeft,
+            TextAlignment::Center => libui_ffi::uiDrawTextAlignCenter,
+            TextAlignment::Right => libui_ffi::uiDrawTextAlignRight,
+        } as uiDrawTextAlign;
     }
 }
